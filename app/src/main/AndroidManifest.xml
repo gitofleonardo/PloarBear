@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.huangchengxi.ploarbear">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".application.PolarApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/start_screen_bear"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/start_screen_bear"
+        android:supportsRtl="true"
+        android:theme="@style/AnimActivity">
+        <activity android:name=".activities.login_activity.LoginActivity"/>
+        <activity android:name=".activities.signup_activity.SignUpActivity"/>
+        <activity android:name=".activities.main_activity.MainActivity" />
+        <activity android:name=".activities.start_up.StartupActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

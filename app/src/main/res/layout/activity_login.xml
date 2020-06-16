@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.login_activity.LoginActivity"
+    android:background="@drawable/start_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/start_screen_bear" />
+
+        <LinearLayout
+            android:elevation="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/login_account_bg"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10">
+
+                <EditText
+                    android:id="@+id/account"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/transparent"
+                    android:hint="@string/account_hint"
+                    android:maxLines="1"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
+                    android:textSelectHandle="@drawable/drop" />
+
+                <FrameLayout
+                    android:id="@+id/clear_current_account"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|right">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/close" />
+                </FrameLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/show_bottom_accounts"
+                android:layout_width="50dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/down" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:elevation="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/login_account_bg">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/transparent"
+                android:hint="@string/password_hint"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textCursorDrawable="@drawable/cursor_drawable"
+                android:textSelectHandle="@drawable/drop" />
+
+            <FrameLayout
+                android:id="@+id/toggle_password_visibility"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center|right"
+                android:background="@drawable/transparent"
+                android:src="@drawable/password_invisible">
+                <ImageView
+                    android:id="@+id/password_eye"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/password_invisible" />
+            </FrameLayout>
+        </FrameLayout>
+        <androidx.cardview.widget.CardView
+            android:foreground="?selectableItemBackground"
+            android:id="@+id/login_btn"
+            android:backgroundTint="@android:color/holo_blue_bright"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="30dp"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center"
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+            <ImageView
+                android:src="@drawable/login_start"
+                android:layout_gravity="center"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+        </androidx.cardview.widget.CardView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/create_account"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/white"
+                android:text="@string/sign_up_hint"
+                android:layout_gravity="center|bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
