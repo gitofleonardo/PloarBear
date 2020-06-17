@@ -6,7 +6,7 @@ import android.util.Log
 import java.lang.Exception
 import java.lang.ref.WeakReference
 
-class CommonHandler(executor: Executor): Handler() {
+open class CommonHandler(executor: Executor): Handler() {
     private val executor:WeakReference<Executor> = WeakReference<Executor>(executor)
 
     override fun handleMessage(msg: Message) {

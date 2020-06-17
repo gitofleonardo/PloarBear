@@ -4,7 +4,7 @@ import android.content.Context
 import cn.huangchengxi.ploarbear.database.LocalUser
 import java.lang.ref.WeakReference
 
-class Presenter(private val exe: Executor) {
+class Presenter(exe: Executor) {
     private val executor=WeakReference<Executor>(exe)
     private val model=Model()
 
@@ -12,10 +12,14 @@ class Presenter(private val exe: Executor) {
         model.updateLocalUser(ctx, LocalUser(account,password))
         //
         executor.get()?.onLogin()
+        executor.get()?.onLoginSuccess()
     }
     fun obtainLocalUsers(ctx:Context){
         val users=model.obtainLocalUser(ctx)
         executor.get()?.onLoadLocalUsers(users)
+    }
+    fun updateLocalCurrentUser(){
+
     }
     interface Executor{
         fun onLoginSuccess()

@@ -8,9 +8,13 @@ class SqliteHelper(context: Context,name:String?,factory:SQLiteDatabase.CursorFa
     :SQLiteOpenHelper(context,name, factory, version) {
     override fun onCreate(db: SQLiteDatabase?) {
         val localSetting="create table local_setting(first_init int(1))"
-        var localUser="create table user(account varchar(20),passwd varchar(20),current_user int(1))"
+        val localUser="create table user(account varchar(20),passwd varchar(20),current_user int(1))"
+        val localUserProps="create table user_props(uid varchar(20),nickname varchar(20),portrait_url string)"
+        val localMessageRecord="create table local_message(uid varchar(20),mid varchar(20),type int,content string,time_sent long)"
         db?.execSQL(localSetting)
         db?.execSQL(localUser)
+        db?.execSQL(localUserProps)
+        db?.execSQL(localMessageRecord)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

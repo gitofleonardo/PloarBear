@@ -1,6 +1,7 @@
 package cn.huangchengxi.ploarbear.activities.login_activity
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.renderscript.ScriptGroup
@@ -12,11 +13,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.huangchengxi.ploarbear.R
 import cn.huangchengxi.ploarbear.activities.activity_utils.ToolKits
+import cn.huangchengxi.ploarbear.activities.main_activity.MainActivity
+import cn.huangchengxi.ploarbear.activities.signup_activity.SignUpActivity
 import cn.huangchengxi.ploarbear.database.LocalUser
 import cn.huangchengxi.ploarbear.database.SqliteHelper
 import cn.huangchengxi.ploarbear.recyclerview_adapters.BottomAccountAdapter
@@ -32,6 +36,7 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
     private val loginBtn by lazy {findViewById<CardView>(R.id.login_btn)}
     private val clearBtn by lazy {findViewById<FrameLayout>(R.id.clear_current_account)}
     private val toggleVisibility by lazy { findViewById<FrameLayout>(R.id.toggle_password_visibility) }
+    private val signUp by lazy { findViewById<TextView>(R.id.create_account) }
 
     private var bottomAccount:BottomSheetDialog?=null
     private var bottomBehavior:BottomSheetBehavior<View>?=null
@@ -41,9 +46,7 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
 
     private val bottomSheetCallback=object : BottomSheetBehavior.BottomSheetCallback(){
         override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        override fun onStateChanged(bottomSheet: View, newState: Int) {
-            if (newState==BottomSheetBehavior.STATE_EXPANDED){}
-        }
+        override fun onStateChanged(bottomSheet: View, newState: Int) {}
     }
     private var localUsers=ArrayList<LocalUser>()
     private val adapter=BottomAccountAdapter(localUsers)
@@ -67,8 +70,11 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
             account.text=SpannableStringBuilder("")
             password.text=SpannableStringBuilder("")
         }
+        signUp.setOnClickListener {
+            val intent=Intent(this,SignUpActivity::class.java)
+            startActivity(intent)
+        }
         toggleVisibility.setOnClickListener {
-            Log.e("vis",password.inputType.toString())
             if (passwordVisible){
                 password.inputType=InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
                 toggleVisibility.findViewById<ImageView>(R.id.password_eye).setImageResource(R.drawable.password_invisible)
@@ -98,7 +104,9 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
     }
 
     override fun onLoginSuccess() {
-
+        val intent=Intent(this,MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     override fun onLoginFailed() {
