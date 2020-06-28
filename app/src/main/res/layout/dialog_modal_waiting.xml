@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="5dp"
+   app:cardBackgroundColor="@color/waiting_dialog_bg_color">
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/waiting_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:id="@+id/waiting_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

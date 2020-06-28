@@ -5,4 +5,10 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="white">#FFF</color>
     <color name="black">#000</color>
+    <color name="onlineGreen">#4CAF50</color>
+    <color name="offlineRed">#F44336</color>
+    <color name="busyYellow">#FF9800</color>
+    <color name="themeColor">#FF9800</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="waiting_dialog_bg_color">#803E3E3E</color>
 </resources>

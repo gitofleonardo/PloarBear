@@ -13,8 +13,14 @@
         android:roundIcon="@drawable/start_screen_bear"
         android:supportsRtl="true"
         android:theme="@style/AnimActivity">
-        <activity android:name=".activities.login_activity.LoginActivity"/>
-        <activity android:name=".activities.signup_activity.SignUpActivity" android:launchMode="singleTop"/>
+        <activity
+            android:launchMode="singleTop"
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
+        <activity android:name=".activities.login_activity.LoginActivity" />
+        <activity
+            android:name=".activities.signup_activity.SignUpActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".activities.main_activity.MainActivity" />
         <activity android:name=".activities.start_up.StartupActivity">
             <intent-filter>

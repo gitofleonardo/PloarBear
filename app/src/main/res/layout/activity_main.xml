@@ -1,9 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.main_activity.MainActivity">
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    tools:context=".activities.main_activity.MainActivity"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:contentInsetStart="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_toolbar_height">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <cn.huangchengxi.ploarbear.activities.main_activity.views.UserStatusView
+                android:id="@+id/home_user_status"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="@string/undefine"
+                android:layout_gravity="center"
+                android:id="@+id/current_fragment_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment"
+            android:layout_width="match_parent"
+            android:layout_weight="9"
+            android:layout_height="0dp"/>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            app:itemIconTint="@color/black"
+            app:itemTextColor="@color/black"
+            app:itemRippleColor="@color/themeColor"
+            app:menu="@menu/menu_home_bottom_view"
+            android:background="@color/white"
+            android:id="@+id/home_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_toolbar_height"/>
+    </LinearLayout>
+</LinearLayout>
