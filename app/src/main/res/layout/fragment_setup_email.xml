@@ -38,6 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"/>
         <Button
+            android:id="@+id/get_validation_code"
             android:textColor="@color/white"
             android:text="@string/get_email_code"
             android:layout_gravity="center"
