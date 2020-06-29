@@ -33,6 +33,10 @@
     <string name="mail_format_error">邮箱格式不正确</string>
     <string name="code_format_error">验证码格式不正确</string>
     <string name="email_code_not_correct">验证码错误</string>
+    <string name="validating">验证中</string>
+    <string name="sign_up_success">注册成功</string>
+    <string name="sign_up_failure">注册失败</string>
+    <string name="password_format_error">密码格式不正确</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

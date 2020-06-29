@@ -17,7 +17,7 @@ open class CommonHandler(executor: Executor): Handler() {
             Log.e("Exception",e.toString())
         }
     }
-    public interface Executor{
+    interface Executor{
         fun handleMessage(msg: Message)
     }
 }

@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import cn.huangchengxi.ploarbear.R
+import cn.huangchengxi.ploarbear.comm_views.ModalWaitingDialog
 import cn.huangchengxi.ploarbear.handler.CommonHandler
 import java.lang.Exception
 import java.util.regex.Pattern
@@ -22,11 +23,17 @@ class SetupEmailFragment(private val iSetupEmail: ISetupEmail) : Fragment(),Emai
     private var emailInp:EditText?=null
     private var codeInp:EditText?=null
     private var messageDialog: AlertDialog?=null
+    private var waitingDialog:ModalWaitingDialog?=null
 
     private val model=EmailViewModel(this)
     private val handler=CommonHandler(this)
 
+    private var currentEmail=""
+    private var currentCode=""
+
     private val BTN_COUNTDOWN=0
+
+    private var t:Thread?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +60,8 @@ class SetupEmailFragment(private val iSetupEmail: ISetupEmail) : Fragment(),Emai
                 showMessageDialog(resources.getText(R.string.code_format_error))
             }else{
                 model.validateEmailCode(mail,code)
+                currentCode=code
+                currentEmail=mail
             }
         }
         getCodeBtn!!.setOnClickListener {
@@ -102,15 +111,17 @@ class SetupEmailFragment(private val iSetupEmail: ISetupEmail) : Fragment(),Emai
                 Log.e("Exception",e.stackTrace.toString())
             }
         }
-        val t=Thread(r)
-        t.start()
+        t=Thread(r)
+        t?.start()
     }
     interface ISetupEmail{
-        fun onNext()
+        fun onNext(email:String,code:String)
     }
 
     override fun onDestroy() {
         messageDialog?.dismiss()
+        t?.interrupt()
+        waitingDialog?.dismiss()
         super.onDestroy()
     }
     override fun onSendingEmail() {
@@ -130,18 +141,27 @@ class SetupEmailFragment(private val iSetupEmail: ISetupEmail) : Fragment(),Emai
     }
 
     override fun onErrorValidation() {
+        waitingDialog?.dismiss()
         showMessageDialog(resources.getText(R.string.email_code_not_correct))
     }
 
     override fun onSuccessValidation() {
-        iSetupEmail.onNext()
+        waitingDialog?.dismiss()
+        iSetupEmail.onNext(currentEmail,currentCode)
+    }
+
+    override fun onValidating() {
+        waitingDialog= ModalWaitingDialog(requireContext())
+        waitingDialog!!.setLoadingText(resources.getText(R.string.validating).toString())
+        waitingDialog!!.setCancelable(false)
+        waitingDialog!!.show()
     }
 
     override fun handleMessage(msg: Message) {
         when(msg.what){
             BTN_COUNTDOWN->{
                 if (msg.arg1>0){
-                    getCodeBtn!!.text=SpannableStringBuilder(getCodeBtn!!.text.toString()+msg.arg1)
+                    getCodeBtn!!.text=SpannableStringBuilder(resources.getText(R.string.email_code_sent).toString()+msg.arg1)
                 }else{
                     getCodeBtn!!.isEnabled=true
                     getCodeBtn!!.text=SpannableStringBuilder(resources.getText(R.string.get_email_code))

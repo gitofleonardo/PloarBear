@@ -15,6 +15,8 @@ class ModalWaitingDialog(context: Context):Dialog(context,R.style.Theme_AppCompa
     private val icon by lazy { findViewById<ImageView>(R.id.waiting_icon) }
     private val name by lazy { findViewById<TextView>(R.id.waiting_text) }
 
+    private var nameText:String?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_modal_waiting)
@@ -22,7 +24,9 @@ class ModalWaitingDialog(context: Context):Dialog(context,R.style.Theme_AppCompa
     }
     private fun init() {
         Glide.with(context).asGif().load(R.drawable.loading1).into(icon)
-        name.text=SpannableStringBuilder(context.resources.getText(R.string.loading))
+        if (nameText==null)
+            nameText=context.resources.getText(R.string.loading).toString()
+        name.text=SpannableStringBuilder(nameText)
         window?.setBackgroundDrawableResource(R.color.transparent)
         window?.setGravity(Gravity.TOP)
         val metrics=DisplayMetrics()
@@ -32,5 +36,9 @@ class ModalWaitingDialog(context: Context):Dialog(context,R.style.Theme_AppCompa
         param?.width= (metrics.widthPixels* 0.9).toInt()
         param?.verticalMargin=0.02f
         window?.attributes=param
+    }
+    fun setLoadingText(text:String){
+        nameText=text
+        //name.text=SpannableStringBuilder(nameText)
     }
 }

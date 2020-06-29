@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import cn.huangchengxi.ploarbear.R
@@ -18,6 +19,9 @@ class SignUpActivity : AppCompatActivity(),SetupEmailFragment.ISetupEmail,SetupP
     private val fragmentManager by lazy { supportFragmentManager }
     private val signUpProgressBar by lazy { findViewById<ProgressBar>(R.id.sign_up_progress) }
     private val back by lazy { findViewById<FrameLayout>(R.id.back) }
+
+    private var currentEmail=""
+    private var currentCode=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +65,10 @@ class SignUpActivity : AppCompatActivity(),SetupEmailFragment.ISetupEmail,SetupP
         }
     }
 
-    override fun onNext() {
+    override fun onNext(email: String, code: String) {
+        currentEmail=email
+        currentCode=code
+
         setProgressValue(100)
         addFragment(setupPasswordFragment)
     }
@@ -69,7 +76,21 @@ class SignUpActivity : AppCompatActivity(),SetupEmailFragment.ISetupEmail,SetupP
     override fun onPrevious() {
         setProgressValue(50)
     }
+
+    override fun currentEmail(): String {
+        return currentEmail
+    }
+
+    override fun currentCode(): String {
+        return currentCode
+    }
+
     override fun onSuccess() {
+        Toast.makeText(this,resources.getText(R.string.sign_up_success),Toast.LENGTH_SHORT).show()
         finish()
+    }
+
+    override fun onFailure() {
+        Toast.makeText(this,resources.getText(R.string.sign_up_failure),Toast.LENGTH_SHORT).show()
     }
 }
