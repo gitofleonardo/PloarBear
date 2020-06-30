@@ -120,7 +120,7 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
                 }
             }
             val view=layoutInflater.inflate(R.layout.bottom_account_manage,null)
-            bottomAccount= BottomSheetDialog(this,R.style.Theme_Design_BottomSheetDialog)
+            bottomAccount= BottomSheetDialog(this,R.style.BottomSheetAnimationDialog)
             bottomAccount!!.setContentView(view)
             bottomBehavior= BottomSheetBehavior.from(view.parent as View)
             bottomBehavior!!.addBottomSheetCallback(bottomSheetCallback)
@@ -136,6 +136,7 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
     private fun showLoading(message: String){
         modalDialog= ModalWaitingDialog(this)
         modalDialog!!.setLoadingText(message)
+        modalDialog!!.setCancelable(false)
         modalDialog!!.show()
     }
     private fun hideLoading(){

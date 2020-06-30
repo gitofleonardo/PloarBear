@@ -41,8 +41,12 @@ class EmailViewModel(view:View):CommonHandler.Executor{
                 Log.e("Response","""${response.body()?.state}  ${response.body()?.message}""")
                 if (response.body()?.state == "success"){
                     v.get()?.onSuccessSending()
-                }else{
-                    v.get()?.onErrorSending()
+                }else {
+                    if (response.body()?.reason == "EMAIL_ALREADY_IN_USE"){
+                        v.get()?.onEmailAlreadyInUse()
+                    }else{
+                        v.get()?.onErrorSending()
+                    }
                 }
             }
         })
@@ -65,6 +69,7 @@ class EmailViewModel(view:View):CommonHandler.Executor{
     }
     interface View{
         fun onSendingEmail()
+        fun onEmailAlreadyInUse()
         fun onErrorSending()
         fun onSuccessSending()
         fun onErrorValidation()
@@ -75,7 +80,7 @@ class EmailViewModel(view:View):CommonHandler.Executor{
 
     }
     companion object{
-        data class Result(val state:String,val message:String)
+        data class Result(val state:String,val message:String,val reason:String)
     }
     private interface AccountCreationCode{
         @POST("/validation-code")

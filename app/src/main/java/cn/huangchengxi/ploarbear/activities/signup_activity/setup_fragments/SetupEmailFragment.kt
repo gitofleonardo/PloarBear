@@ -138,6 +138,12 @@ class SetupEmailFragment(private val iSetupEmail: ISetupEmail) : Fragment(),Emai
         getCodeBtn!!.text=SpannableStringBuilder(resources.getText(R.string.sending_email_code))
     }
 
+    override fun onEmailAlreadyInUse() {
+        getCodeBtn!!.isEnabled=true
+        getCodeBtn!!.text=SpannableStringBuilder(resources.getText(R.string.get_email_code))
+        showMessageDialog(resources.getText(R.string.email_already_in_use))
+    }
+
     override fun onErrorSending() {
         getCodeBtn!!.isEnabled=true
         getCodeBtn!!.text=SpannableStringBuilder(resources.getText(R.string.get_email_code))

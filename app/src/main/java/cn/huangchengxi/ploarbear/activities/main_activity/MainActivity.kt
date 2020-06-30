@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import cn.huangchengxi.ploarbear.R
@@ -15,10 +14,8 @@ import cn.huangchengxi.ploarbear.activities.main_activity.fragments.MessageFragm
 import cn.huangchengxi.ploarbear.activities.main_activity.fragments.ToolkitFragment
 import cn.huangchengxi.ploarbear.activities.main_activity.views.HomeBottomItem
 import cn.huangchengxi.ploarbear.activities.main_activity.views.UserStatusView
-import cn.huangchengxi.ploarbear.comm_views.ModalWaitingDialog
+import cn.huangchengxi.ploarbear.activities.main_activity.views.HomeBottomSheetDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class MainActivity : AppCompatActivity() {
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
@@ -66,16 +63,21 @@ class MainActivity : AppCompatActivity() {
      * set listener
      */
     private fun showHomeBottom(){
-        val dialog=BottomSheetDialog(this,R.style.Theme_Design_BottomSheetDialog)
+        val dialog=
+            HomeBottomSheetDialog(
+                this,
+                R.style.BottomSheetAnimationDialog
+            )
         val view=layoutInflater.inflate(R.layout.view_home_bottom_sheet,null)
         view.findViewById<HomeBottomItem>(R.id.setting).setOnClickListener {
             val intent=Intent(this,SettingsActivity::class.java)
             startActivity(intent)
         }
         dialog.setContentView(view)
-        dialog.behavior.state=BottomSheetBehavior.STATE_EXPANDED
-        dialog.window!!.setBackgroundDrawableResource(R.drawable.transparent)
-        dialog.behavior.isDraggable=false
+        //dialog.behavior.state=BottomSheetBehavior.STATE_EXPANDED
+        //dialog.window!!.setBackgroundDrawableResource(R.drawable.transparent)
+        //dialog.behavior.isDraggable=false
+
         dialog.show()
     }
     private fun setupNav(){

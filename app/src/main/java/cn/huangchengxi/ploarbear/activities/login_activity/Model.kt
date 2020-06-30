@@ -2,11 +2,13 @@ package cn.huangchengxi.ploarbear.activities.login_activity
 
 import android.content.Context
 import android.os.Message
+import android.util.Log
 import cn.huangchengxi.ploarbear.database.LocalUser
 import cn.huangchengxi.ploarbear.database.SqliteHelper
 import cn.huangchengxi.ploarbear.handler.CommonHandler
 import cn.huangchengxi.ploarbear.network.NetworkUtils
 import cn.huangchengxi.ploarbear.server.ServerConfig
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,6 +32,7 @@ class Model(ptser:Presenter):CommonHandler.Executor {
     }
     fun login(username:String,password:String){
         val okHttpClient= OkHttpClient.Builder()
+            //.addInterceptor(LoginInterceptor())
             .build()
 
         val retrofit= Retrofit.Builder()
@@ -47,7 +50,12 @@ class Model(ptser:Presenter):CommonHandler.Executor {
                 if (response.body()!=null){
                     if (response.body()!!.state == "success"){
                         val session = response.headers()["set-cookie"]
-                        presenter.get()?.onLoginSuccess(session!!)
+                        //Log.e("header",response.headers().toMultimap().toString())
+                        if (session == null){
+                            presenter.get()?.onLoginFailure()
+                            return
+                        }
+                        presenter.get()?.onLoginSuccess(session)
                         return
                     }
                 }
@@ -75,5 +83,15 @@ class Model(ptser:Presenter):CommonHandler.Executor {
     }
     companion object{
         data class LoginResult(val state:String,val time:String)
+        class LoginInterceptor:Interceptor{
+            override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+                val request=chain.request()
+                Log.e("Request",request.headers.toMultimap().toString())
+                val response=chain.proceed(request)
+                Log.e("Response",response.headers.toMultimap().toString())
+                return response
+            }
+
+        }
     }
 }

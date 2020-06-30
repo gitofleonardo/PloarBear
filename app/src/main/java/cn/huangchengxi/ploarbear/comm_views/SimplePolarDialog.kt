@@ -41,7 +41,7 @@ class SimplePolarDialog(context: Context):AlertDialog(context,R.style.Theme_AppC
         val m=DisplayMetrics()
         window?.windowManager?.defaultDisplay?.getMetrics(m)
         val param=window?.attributes
-        param?.width=(m.widthPixels*0.5).toInt()
+        param?.width=(m.widthPixels*0.6).toInt()
         window?.attributes=param
 
         setupButtons()

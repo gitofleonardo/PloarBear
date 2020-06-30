@@ -36,6 +36,7 @@ class SqliteHelper(context: Context,name:String?,factory:SQLiteDatabase.CursorFa
                 return setting
             }
             cursor.close()
+            helper.close()
             return null
         }
         fun getLocalUsers(ctx:Context):List<LocalUser>{
@@ -48,6 +49,7 @@ class SqliteHelper(context: Context,name:String?,factory:SQLiteDatabase.CursorFa
                 list.add(user)
             }
             cursor.close()
+            helper.close()
             return list
         }
         fun getLocalCurrentUser(ctx: Context):LocalUser?{
@@ -59,6 +61,7 @@ class SqliteHelper(context: Context,name:String?,factory:SQLiteDatabase.CursorFa
                 cursor.close()
                 return user
             }
+            helper.close()
             return null
         }
         fun updateUser(ctx: Context,user:LocalUser){
@@ -66,10 +69,6 @@ class SqliteHelper(context: Context,name:String?,factory:SQLiteDatabase.CursorFa
             val db=helper.writableDatabase
             val cursor=db.query("user", arrayOf("account","passwd"),"account=?", arrayOf(user.account),"","","");
             if (cursor.moveToNext()){
-                //val sql1="update user set passwd=\"${user.passwd}\" and current_user=1 where account=\"${user.account}\""
-                //val sql2="update user set current_user=0"
-                //db.execSQL(sql2)
-                //db.execSQL(sql1)
                 val contentValues=ContentValues()
                 contentValues.put("account",user.account)
                 contentValues.put("passwd",user.passwd)
@@ -80,11 +79,13 @@ class SqliteHelper(context: Context,name:String?,factory:SQLiteDatabase.CursorFa
                 db.execSQL(sql)
             }
             cursor.close()
+            helper.close()
         }
         fun removeLocalUser(ctx: Context,username:String){
             val helper= getAvailableSqliteHelper(ctx)
             val db=helper.writableDatabase
             db.delete("user","account=?", arrayOf(username))
+            helper.close()
         }
     }
 }
