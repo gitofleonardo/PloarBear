@@ -31,7 +31,7 @@
         <EditText
             android:id="@+id/validation_code"
             android:textCursorDrawable="@drawable/cursor_drawable"
-            android:layout_weight="5"
+            android:layout_weight="3"
             android:hint="@string/validation"
             android:layout_gravity="center"
             android:background="@drawable/input_round_corners"

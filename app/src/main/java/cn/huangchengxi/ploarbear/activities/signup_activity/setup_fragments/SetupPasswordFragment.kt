@@ -10,6 +10,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import cn.huangchengxi.ploarbear.R
 import cn.huangchengxi.ploarbear.comm_views.ModalWaitingDialog
+import cn.huangchengxi.ploarbear.comm_views.SimplePolarDialog
 import java.util.regex.Pattern
 
 class SetupPasswordFragment(private val iSetupPassword: ISetupPassword) : Fragment(),PasswordViewModel.View {
@@ -17,7 +18,7 @@ class SetupPasswordFragment(private val iSetupPassword: ISetupPassword) : Fragme
     private var passwordInp:EditText?=null
     private val model=PasswordViewModel(this)
 
-    private var messageDialog:AlertDialog?=null
+    private var messageDialog:SimplePolarDialog?=null
     private var waitingDialog:ModalWaitingDialog?=null
 
     override fun onCreateView(
@@ -44,12 +45,20 @@ class SetupPasswordFragment(private val iSetupPassword: ISetupPassword) : Fragme
         }
     }
     private fun showMessageDialog(msg:CharSequence){
+        /**
         val builder= AlertDialog.Builder(requireContext(),R.style.Theme_AppCompat_Light_Dialog)
         builder.setMessage(msg)
             .setNegativeButton(resources.getText(R.string.confirm)) { p0, p1 ->
                 p0.dismiss()
             }
         messageDialog=builder.show()
+        */
+        messageDialog= SimplePolarDialog(requireContext())
+        messageDialog!!.setPositiveButton(R.string.confirm){
+
+        }
+        messageDialog!!.setTitleText(msg.toString())
+        messageDialog!!.show()
     }
     override fun onDestroy() {
         messageDialog?.dismiss()

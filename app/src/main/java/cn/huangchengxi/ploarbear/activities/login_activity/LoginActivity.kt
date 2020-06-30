@@ -10,10 +10,7 @@ import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,11 +18,16 @@ import cn.huangchengxi.ploarbear.R
 import cn.huangchengxi.ploarbear.activities.activity_utils.ToolKits
 import cn.huangchengxi.ploarbear.activities.main_activity.MainActivity
 import cn.huangchengxi.ploarbear.activities.signup_activity.SignUpActivity
+import cn.huangchengxi.ploarbear.application.PolarApplication
+import cn.huangchengxi.ploarbear.comm_views.ModalWaitingDialog
+import cn.huangchengxi.ploarbear.comm_views.PolarToast
 import cn.huangchengxi.ploarbear.database.LocalUser
 import cn.huangchengxi.ploarbear.database.SqliteHelper
+import cn.huangchengxi.ploarbear.database.TextValidator
 import cn.huangchengxi.ploarbear.recyclerview_adapters.BottomAccountAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_sign_up.view.*
 
 class LoginActivity : AppCompatActivity(),Presenter.Executor {
     private var passwordVisible=false
@@ -43,6 +45,7 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
     private val showBottomAccounts by lazy { findViewById<FrameLayout>(R.id.show_bottom_accounts) }
     private var bottomAccountRecycler:RecyclerView?=null
     private val layoutManager by lazy { LinearLayoutManager(this) }
+    private var modalDialog:ModalWaitingDialog?=null
 
     private val bottomSheetCallback=object : BottomSheetBehavior.BottomSheetCallback(){
         override fun onSlide(bottomSheet: View, slideOffset: Float) {}
@@ -51,7 +54,10 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
     private var localUsers=ArrayList<LocalUser>()
     private val adapter=BottomAccountAdapter(localUsers)
 
-    private val presenter=Presenter(this)
+    private val presenter=Presenter(this,this)
+
+    private var currentUserName:String?=null
+    private var currentUserPassword:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +70,16 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
             showBottomAccounts()
         }
         loginBtn.setOnClickListener{
+            if (!TextValidator.checkAccount(account.text.toString())){
+                showToast(resources.getText(R.string.account_format_error).toString())
+                return@setOnClickListener
+            }
+            if (!TextValidator.checkPassword(password.text.toString())){
+                showToast(resources.getText(R.string.password_format_error).toString())
+                return@setOnClickListener
+            }
+            currentUserName=account.text.toString()
+            currentUserPassword=password.text.toString()
             presenter.login(this,account.text.toString(),password.text.toString())
         }
         clearBtn.setOnClickListener {
@@ -91,6 +107,18 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
         if (bottomAccount!=null){
             bottomAccount!!.show()
         }else{
+            adapter.setDelListener {
+                presenter.removeLocalUser(localUsers[it].account)
+            }
+            adapter.setContainerListener {
+                currentUserName=localUsers[it].account
+                currentUserPassword=localUsers[it].passwd
+                account.text=SpannableStringBuilder(currentUserName)
+                password.text=SpannableStringBuilder(currentUserPassword)
+                if (bottomAccount!=null){
+                    bottomAccount!!.dismiss()
+                }
+            }
             val view=layoutInflater.inflate(R.layout.bottom_account_manage,null)
             bottomAccount= BottomSheetDialog(this,R.style.Theme_Design_BottomSheetDialog)
             bottomAccount!!.setContentView(view)
@@ -102,20 +130,38 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
             bottomAccount!!.show()
         }
     }
-
-    override fun onLoginSuccess() {
+    private fun showToast(message:String){
+        PolarToast.show(this,R.drawable.error,message,Toast.LENGTH_SHORT)
+    }
+    private fun showLoading(message: String){
+        modalDialog= ModalWaitingDialog(this)
+        modalDialog!!.setLoadingText(message)
+        modalDialog!!.show()
+    }
+    private fun hideLoading(){
+        modalDialog?.dismiss()
+    }
+    override fun onLoginSuccess(session: String) {
+        val localUser=LocalUser(currentUserName!!,currentUserPassword!!)
+        presenter.updateLocalCurrentUser(localUser)
+        storeToApplication(currentUserName!!,currentUserPassword!!,session)
         val intent=Intent(this,MainActivity::class.java)
         startActivity(intent)
         finish()
     }
-
-    override fun onLoginFailed() {
-
+    private fun storeToApplication(username:String,password:String,session:String){
+        (application as PolarApplication).sessionId=session
+        (application as PolarApplication).username=username
+        (application as PolarApplication).password=password
     }
-
+    override fun onLoginFailed(reason:String) {
+        hideLoading()
+        showToast(reason)
+    }
     override fun onLoadLocalUsers(users: List<LocalUser>) {
         localUsers.clear()
         localUsers.addAll(users)
+        adapter.notifyDataSetChanged()
         val user=SqliteHelper.getLocalCurrentUser(this)
         if (user!=null){
             account.text=SpannableStringBuilder(user.account)
@@ -127,6 +173,15 @@ class LoginActivity : AppCompatActivity(),Presenter.Executor {
     }
 
     override fun onLogin() {
+        showLoading(resources.getText(R.string.on_login).toString())
+    }
 
+    override fun removeLocalUserSuccess() {
+        presenter.obtainLocalUsers(this)
+    }
+
+    override fun onDestroy() {
+        modalDialog?.dismiss()
+        super.onDestroy()
     }
 }

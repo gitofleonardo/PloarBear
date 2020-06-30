@@ -19,7 +19,7 @@ class EmailViewModel(view:View):CommonHandler.Executor{
 
     private fun validationImp():AccountCreationCode{
         val okHttpClient=OkHttpClient.Builder()
-            .build();
+            .build()
 
         val retrofit=Retrofit.Builder()
             .baseUrl(ServerConfig.HOST)
@@ -34,7 +34,7 @@ class EmailViewModel(view:View):CommonHandler.Executor{
 
         accountCreationCode.getCodeResult(email).enqueue(object:Callback<Result>{
             override fun onFailure(call: Call<Result>, t: Throwable) {
-                Log.e("Exception",t.message)
+                //Log.e("Exception",t.message)
                 v.get()?.onErrorSending()
             }
             override fun onResponse(call: Call<Result>, response: Response<Result>) {

@@ -12,6 +12,7 @@ import cn.huangchengxi.ploarbear.R
 import cn.huangchengxi.ploarbear.activities.activity_utils.ToolKits
 import cn.huangchengxi.ploarbear.activities.signup_activity.setup_fragments.SetupEmailFragment
 import cn.huangchengxi.ploarbear.activities.signup_activity.setup_fragments.SetupPasswordFragment
+import cn.huangchengxi.ploarbear.comm_views.PolarToast
 
 class SignUpActivity : AppCompatActivity(),SetupEmailFragment.ISetupEmail,SetupPasswordFragment.ISetupPassword {
     private val setupEmailFragment by lazy { SetupEmailFragment(this) }
@@ -86,11 +87,16 @@ class SignUpActivity : AppCompatActivity(),SetupEmailFragment.ISetupEmail,SetupP
     }
 
     override fun onSuccess() {
-        Toast.makeText(this,resources.getText(R.string.sign_up_success),Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,resources.getText(R.string.sign_up_success),Toast.LENGTH_SHORT).show()
+        showMessage(R.string.sign_up_success)
         finish()
     }
 
     override fun onFailure() {
-        Toast.makeText(this,resources.getText(R.string.sign_up_failure),Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,resources.getText(R.string.sign_up_failure),Toast.LENGTH_SHORT).show()
+        showMessage(R.string.sign_up_failure)
+    }
+    private fun showMessage(message:Int){
+        PolarToast.show(this,R.drawable.success,message,Toast.LENGTH_SHORT)
     }
 }

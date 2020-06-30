@@ -13,6 +13,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import cn.huangchengxi.ploarbear.R
 import cn.huangchengxi.ploarbear.comm_views.ModalWaitingDialog
+import cn.huangchengxi.ploarbear.comm_views.SimplePolarDialog
 import cn.huangchengxi.ploarbear.handler.CommonHandler
 import java.lang.Exception
 import java.util.regex.Pattern
@@ -22,7 +23,7 @@ class SetupEmailFragment(private val iSetupEmail: ISetupEmail) : Fragment(),Emai
     private var getCodeBtn:Button?=null
     private var emailInp:EditText?=null
     private var codeInp:EditText?=null
-    private var messageDialog: AlertDialog?=null
+    private var messageDialog: SimplePolarDialog?=null
     private var waitingDialog:ModalWaitingDialog?=null
 
     private val model=EmailViewModel(this)
@@ -74,12 +75,20 @@ class SetupEmailFragment(private val iSetupEmail: ISetupEmail) : Fragment(),Emai
         }
     }
     private fun showMessageDialog(msg:CharSequence){
+        /**
         val builder=AlertDialog.Builder(requireContext(),R.style.Theme_AppCompat_Light_Dialog)
         builder.setMessage(msg)
             .setNegativeButton(resources.getText(R.string.confirm)) { p0, p1 ->
                 p0.dismiss()
             }
         messageDialog=builder.show()
+        */
+        messageDialog=SimplePolarDialog(requireContext())
+        messageDialog!!.setPositiveButton(R.string.confirm){
+
+        }
+        messageDialog!!.setTitleText(msg.toString())
+        messageDialog!!.show()
     }
     private fun checkCodeFormat(code:String):Boolean{
         val pattern= Pattern.compile("^[0-9]{6}$")

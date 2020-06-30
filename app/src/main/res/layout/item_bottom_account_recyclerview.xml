@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="64dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:foreground="?selectableItemBackground"
+    android:id="@+id/item_container">
     <androidx.cardview.widget.CardView
         app:cardElevation="0dp"
         app:cardCornerRadius="18dp"
