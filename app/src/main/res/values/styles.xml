@@ -23,4 +23,11 @@
         <item name="android:windowEnterAnimation">@anim/anim_bottom_sheet_enter</item>
         <item name="android:windowExitAnimation">@anim/anim_bottom_sheet_exit</item>
     </style>
+    <style name="ThemePolarDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowAnimationStyle">@style/PolarDialogAnimationStyle</item>
+    </style>
+    <style name="PolarDialogAnimationStyle" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/anim_polar_dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/anim_polar_dialog_exit</item>
+    </style>
 </resources>

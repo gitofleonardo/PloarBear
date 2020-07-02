@@ -35,12 +35,31 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <cn.huangchengxi.ploarbear.activities.main_activity.views.HomeBottomItem
-                    android:id="@+id/setting"
-                    android:foreground="?selectableItemBackground"
-                    app:name="@string/settings"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <cn.huangchengxi.ploarbear.activities.main_activity.views.HomeBottomItem
+                        android:id="@+id/personal_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:name="@string/personal_page"
+                        android:foreground="?selectableItemBackground"
+                        app:icon="@drawable/account"/>
+                    <cn.huangchengxi.ploarbear.activities.main_activity.views.HomeBottomItem
+                        android:id="@+id/account_ref"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:name="@string/account_reference"
+                        android:foreground="?selectableItemBackground"
+                        app:icon="@drawable/personal_page"/>
+                    <cn.huangchengxi.ploarbear.activities.main_activity.views.HomeBottomItem
+                        android:id="@+id/setting"
+                        android:foreground="?selectableItemBackground"
+                        app:name="@string/settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

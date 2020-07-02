@@ -74,10 +74,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         dialog.setContentView(view)
-        //dialog.behavior.state=BottomSheetBehavior.STATE_EXPANDED
-        //dialog.window!!.setBackgroundDrawableResource(R.drawable.transparent)
-        //dialog.behavior.isDraggable=false
-
         dialog.show()
     }
     private fun setupNav(){

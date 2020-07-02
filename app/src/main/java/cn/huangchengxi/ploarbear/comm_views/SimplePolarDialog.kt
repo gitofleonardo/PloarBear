@@ -12,7 +12,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import cn.huangchengxi.ploarbear.R
 
-class SimplePolarDialog(context: Context):AlertDialog(context,R.style.Theme_AppCompat_Dialog) {
+class SimplePolarDialog(context: Context):AlertDialog(context,R.style.ThemePolarDialog) {
     private val title by lazy { findViewById<TextView>(R.id.title) }
     private val content by lazy { findViewById<TextView>(R.id.content_text) }
     private val positiveBtn by lazy { findViewById<Button>(R.id.positive_btn) }
@@ -34,6 +34,7 @@ class SimplePolarDialog(context: Context):AlertDialog(context,R.style.Theme_AppC
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_polar_simple)
         init()
+        R.style.Theme_AppCompat_Dialog
     }
     private fun init(){
         window?.setBackgroundDrawableResource(R.color.transparent)
